@@ -1,70 +1,98 @@
-import os
+# !/usr/lib/python3.4
+# -*- coding: utf-8 -*-
+
+from bin_to_all import *
+from all_to_dec import *
 
 
-# Функция выбора системы счисления
-def get_num_sys(msg):
-    while True:
-        num_sys = print(msg)
-        num_sys = input('>>>')
-        num_sys = num_sys.upper()
-        if num_sys == 'BIN':
-            return 2
-        elif num_sys == 'OCT':
-            return 8
-        elif num_sys == 'DEC':
-            return 10
-        elif num_sys == 'HEX':
-            return 16
+def convertation(num, from_base, to_base):
+    DOCUMENTATION = """
+    module: pidgeotto
+    version_added: "1.0"
+    description:
+      - Convert all systems
+    description:
+      - Create VM.
+    options:
+      num:
+        description:
+          - The number for convertation.
+      from_base:
+        description:
+          - The positional numeral system of the number
+            which we will translate.
+      to_base:
+        description:
+          - The positional numeral system for result.
+    author: "Polina Azarova (@e7su)"
+    note:
+      2 ->  2 print num  ###
+      2 ->  8 bin_to_oct
+      2 -> 10 all_to_dec  #
+      2 -> 16 bin_to_hex
 
+      8 ->  2 oct_to_dec, dec_to_bin
+      8 ->  8 print num  ###
+      8 -> 10 all_to_dec  #
+      8 -> 16 oct_to_dec, dec_to_bin, bin_to_hex
 
-# Функция перевода из двоичной системы
-def convert_num_sys(value, f_num_sys, t_num_sys):
-    value = int(value, f_num_sys)
-    if t_num_sys == 2:
-        return bin(value)
-    elif t_num_sys == 8:
-        return oct(value)
-    elif t_num_sys == 10:
-        return value
-    elif t_num_sys == 16:
-        return hex(value)
+      10 ->  2 dec_to_bin
+      10 ->  8 dec_to_bin, bin_to_oct
+      10 -> 10 print num  ###
+      10 -> 16 dec_to_bin, bin_to_hex
+
+      16 ->  2 all_to_dec, dec_to_bin
+      16 ->  8 all_to_dec,dec_to_bin, bin_to_oct
+      16 -> 10 all_to_dec  #
+      16 -> 16 print num  ###
+    """
+
+    if to_base == from_base:
+        return num
+    else:
+
+        if to_base == 10:
+            return all_to_dec(num, from_base)
+        else:
+
+            if from_base == 2:
+                if to_base == 8:
+                    return bin_to_oct(num)
+                else:
+                    return bin_to_hex(num)
+
+            if from_base == 8:
+                if to_base == 2:
+                    return dec_to_bin(oct_to_dec(num))
+                else:
+                    return bin_to_hex(dec_to_bin(oct_to_dec(num)))
+
+            if from_base == 10:
+                if to_base == 2:
+                    return dec_to_bin(num)
+                if to_base == 8:
+                    return bin_to_oct(dec_to_bin(num))
+                else:
+                    return bin_to_hex(dec_to_bin(num))
+
+            if from_base == 16:
+                if to_base == 2:
+                    return dec_to_bin(all_to_dec(num, 16))
+                if to_base == 8:
+                    return bin_to_oct(dec_to_bin(all_to_dec(num, 16)))
 
 
 def main():
-    msg = 'Выберите начальную систему счисления: BIN, OCT, DEC, HEX'
-    f_num_sys = get_num_sys(msg)  # Получаем исходную систему исчисления
-    print('Перевод из {}ичной системы'.format(f_num_sys))
-    print()
-    msg = 'Выберите систему счисления для результата: BIN, OCT, DEC, HEX'
-    # Получаем систему счисления, в которую необходимо перевести
-    t_num_sys = get_num_sys(msg)
-    print()
-    print('Введите значение:')
-    value = input('>>>')  # Получаем исходное число
-    print()
-    try:
-        rows, columns = os.popen('stty size', 'r').read().split()
-        res = convert_num_sys(value, f_num_sys, t_num_sys)
-        msg = str(int(columns) * '-')
-        print(msg)
-        print('Результат вычислений:')
-        print(res)
+    a = (12, 10.0, 'FF.A7', 202.01)
+    fb = (10, 10, 16, 2)
+    tb = (2, 8, 2, 2)
+    for i in range(len(a)):
+        print('Num:       ', a[i])
+        print('From Base: ', fb[i])
+        print('To Base:   ', tb[i])
+        print('Res:       ', convertation(a[i], fb[i], tb[i]))
         print()
-    except ValueError:
-        c = int(columns)
-        msg = ' Неверное число. Проверьте систему счисления '.center(c, '!')
-        print(msg)
-    except TypeError:
-        print('!!! Это не число. Выходим. !!!'.center(int(columns), ' '))
-    print(str(int(columns) * '='))
-    print('Pidgey'.center(int(columns), ' '))
-    print(str(int(columns) * '='))
+
+
+if __name__ == "__main__":
     main()
-
-rows, columns = os.popen('stty size', 'r').read().split()
-print(str(int(columns) * '='))
-print('Pidgey v2.4'.center(int(columns), ' '))
-print(str(int(columns) * '='))
-
-
-main()
