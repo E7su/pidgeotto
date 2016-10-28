@@ -3,9 +3,6 @@
 
 def all_to_dec(num, base):
 
-    print('Num:  ', num)
-    print('Base: ', base)
-
     dec_int = 0
     i = 0
     cut1 = 0
@@ -63,20 +60,17 @@ def all_to_dec(num, base):
             cut2 += 1
             i -= 1
 
-    print('Dec:  ', dec_int)
-    return dec_int
+    return float(dec_int)
 
 
 def main():
-    print()
-    all_to_dec(101.01, 2)
-    print()
-    all_to_dec(10.0, 8)
-    print()
-    all_to_dec('FF.A7', 16)
-    print()
-    all_to_dec(202.01, 2)   #todo fix me
-    print()
+    a = (101.01, 10.0, 'FF.A7', 202.01)
+    fb = (2, 8, 16, 2)
+    for i in range(len(a)):
+        print('Num:       ', a[i])
+        print('From Base: ', fb[i])
+        print('Res:       ', all_to_dec(a[i], fb[i]))
+        print()
 
 if __name__ == "__main__":
     main()
