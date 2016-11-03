@@ -71,7 +71,7 @@ def convertation(num, from_base, to_base):
 
             if from_base == 8:
                 if to_base == 2:
-                    return dec_to_bin(oct_to_dec(num))
+                    return oct_to_bin(num)
                 else:
                     return bin_to_hex(dec_to_bin(oct_to_dec(num)))
 
@@ -85,7 +85,7 @@ def convertation(num, from_base, to_base):
 
             if from_base == 16:
                 if to_base == 2:
-                    return dec_to_bin(all_to_dec(num, 16))
+                    return hex_to_bin(num)
                 if to_base == 8:
                     return bin_to_oct(dec_to_bin(all_to_dec(num, 16)))
 
