@@ -10,9 +10,7 @@ def convertation(num, from_base, to_base):
     module: pidgeotto
     version_added: "1.0"
     description:
-      - Convert all systems
-    description:
-      - Create VM.
+      - Convert all systems.
     options:
       num:
         description:
@@ -46,6 +44,16 @@ def convertation(num, from_base, to_base):
       16 -> 10 all_to_dec  #
       16 -> 16 print num  ###
     """
+
+    num_symbol = set(str(num))
+    all_symbol = ('.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                  'A', 'B', 'C', 'D', 'E', 'F')
+
+    # It compare the input characters with characters that are valid for the numeric system
+    if num_symbol.issubset(set(all_symbol[:from_base + 1])):
+        print('Всё ок, расходимся!')
+    else:
+        print('Ты втираешь мне какую-то дичь!')
 
     if to_base == from_base:
         return num
@@ -83,14 +91,14 @@ def convertation(num, from_base, to_base):
 
 
 def main():
-    a = (12, 10.0, 'FF.A7', 202.01)
+    n = (12, 10.0, 'FF.A7', 202.01)
     fb = (10, 10, 16, 2)
     tb = (2, 8, 2, 2)
-    for i in range(len(a)):
-        print('Num:       ', a[i])
+    for i in range(len(n)):
+        print('Num:       ', n[i])
         print('From Base: ', fb[i])
         print('To Base:   ', tb[i])
-        print('Res:       ', convertation(a[i], fb[i], tb[i]))
+        print('Res:       ', convertation(n[i], fb[i], tb[i]))
         print()
 
 
