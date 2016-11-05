@@ -15,8 +15,10 @@ def dec_to_bin(num):
         float_part = float('0.' + num[1])
         i = 1
         j = 0.1
+        k = j / (10**(len(str(float_part))+1))
 
-        while j > 0.0000000000000000000001:  # todo
+        #while j > j / (10**(len(str(float_part)))):  #strange, but working too, need to testing
+        while j > k:  # possible fix
             tmp = float_part * 2
             bin_float = bin_float + (int(tmp)) * j
             float_part = tmp - int(tmp)
@@ -70,14 +72,14 @@ def bin_to_hex(num):
 
 
 def hex_to_bin(num):
-    dic = {'0000': '0', '1000': '8',
-           '0001': '1', '1001': '9',
-           '0010': '2', '1010': 'A',
-           '0011': '3', '1011': 'B',
-           '0100': '4', '1100': 'C',
-           '0101': '5', '1101': 'D',
-           '0110': '6', '1110': 'E',
-           '0111': '7', '1111': 'F'}
+    dic = {'0': '0000', '8': '1000',
+           '1': '0001', '9': '1001',
+           '2': '0010', 'A': '1010',
+           '3': '0011', 'B': '1011',
+           '4': '0100', 'C': '1100',
+           '5': '0101', 'D': '1101',
+           '6': '0110', 'E': '1110',
+           '7': '0111', 'F': '1111'}
 
     num = str(num)
     num = num.split('.')
@@ -87,19 +89,19 @@ def hex_to_bin(num):
 
     try:
         bin_float = str(num[1])
+        print(bin_float)
         bin_full += '.'
 
-        while (len(bin_float) % 4 != 0):
-            bin_float += '0'
-
         cut1 = 0
-        cut2 = 4
+        cut2 = 1
         while (len(bin_float) >= cut2):
             temp = bin_float[cut1:cut2]
             for key in dic.keys():
-                temp = temp.replace(dic[key], key)
-            cut1 += 4
-            cut2 += 4
+                temp = temp.replace(key, dic[key])
+                if len(temp) == 4:
+                    break
+            cut1 += 1
+            cut2 += 1
             bin_full += temp
 
     except IndexError:
@@ -143,10 +145,10 @@ def bin_to_oct(num):
 
 
 def oct_to_bin(num):
-    dic = {'000': '0', '100': '4',
-           '001': '1', '101': '5',
-           '010': '2', '110': '6',
-           '011': '3', '111': '7'}
+    dic = {'0': '000', '4': '100',
+           '1': '001', '5': '101',
+           '2': '010', '6': '110',
+           '3': '011', '7': '111'}
 
     num = str(num)
     num = num.split('.')
@@ -157,17 +159,16 @@ def oct_to_bin(num):
         bin_float = num[1]
         bin_full += '.'
 
-        while (len(bin_float) % 3 != 0):
-            bin_float += '0'
-
         cut1 = 0
-        cut2 = 3
+        cut2 = 1
         while (cut2 <= len(bin_float)):
             temp = bin_float[cut1:cut2]
             for key in dic.keys():
-                temp = temp.replace(dic[key], key)
-            cut1 += 3
-            cut2 += 3
+                temp = temp.replace(key, dic[key])
+                if len(temp) == 3:
+                    break
+            cut1 += 1
+            cut2 += 1
             bin_full += temp
 
     except IndexError:
